@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class CartOrder extends StatefulWidget {
-  final List<Map<String, dynamic>> cartItems; // ပစ္စည်းစာရင်းကို HomePage ကနေ လှမ်းယူမယ်
+  final List<Map<String, dynamic>> cartItems; // ပစ္စည်းစာရင်းကို HomePage ကနေ လှမ်းယူ
   const CartOrder({super.key, required this.cartItems});
 
   @override
@@ -66,7 +66,7 @@ class _CartOrderState extends State<CartOrder> {
                                 if (item['qty'] > 1) {
                                   item['qty']--;
                                 } else {
-                                  // ၁ ဖြစ်နေချိန် ထပ်နှိပ်ရင် list ထဲက ဖျက်မယ်
+                                  // ၁ ဖြစ်နေချိန် ထပ်နှိပ်ရင် list ထဲက ဖျက်
                                   widget.cartItems.removeAt(index);
                                 }
                               });
@@ -110,7 +110,7 @@ class _CartOrderState extends State<CartOrder> {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Order Done Alert Box ပြမယ်
+                      // Order Done Alert Box
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
@@ -120,10 +120,9 @@ class _CartOrderState extends State<CartOrder> {
                             TextButton(
                               onPressed: () {
                                 setState(() {
-                                  widget.cartItems.clear(); // Cart ထဲက ပစ္စည်းတွေ အကုန်ဖျက်မယ်
+                                  widget.cartItems.clear();
                                 });
-                                Navigator.pop(context); // Dialog ပိတ်မယ်
-                                // Navigator.pop(context); // Home ကို ပြန်သွားမယ်
+                                Navigator.pop(context); // Dialog ပိတ်
                               }, 
                               child: const Text("OK")
                             ),

@@ -8,7 +8,7 @@ class SupabaseService {
   Future<List<Product>> fetchProducts() async {
     try {
       final response = await supabase.from('flower_products').select();
-      // response ကလာတဲ့ data တွေကို model အဖြစ်ပြောင်းမယ်
+      // response ကလာတဲ့ data တွေကို model အဖြစ်ပြောင်း
       final List<dynamic> data = response;
       return data.map((item) => Product.fromJson(item)).toList();
     } catch (e) {

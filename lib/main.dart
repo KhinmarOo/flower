@@ -74,15 +74,15 @@ class _HomePageState extends State<HomePage> {
           content: Text("Do you want to add '${product.name}' to your cart?"),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(), // ပိတ်လိုက်ရုံပဲ
+              onPressed: () => Navigator.of(context).pop(), 
               child: const Text("Cancel", style: TextStyle(color: Colors.grey)),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.pink.shade100),
               onPressed: () {
-                // ဒီနေရာမှာ _addToCart ကို လှမ်းခေါ်ပြီး data ထည့်မယ်
+                //  _addToCart ကို လှမ်းခေါ်ပြီး data ထည့်
                 _addToCart(product); 
-                Navigator.of(context).pop(); // Box ကို ပိတ်မယ်
+                Navigator.of(context).pop(); 
               },
               child: const Text("Add", style: TextStyle(color: Colors.black)),
             )
@@ -210,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: 0.75, // Grid card လေးတွေ ရှည်ရှည်လေးဖြစ်အောင်
+                  childAspectRatio: 0.75, 
                 ), 
                 itemBuilder: (context,index){
                   final product = products[index];
@@ -232,14 +232,12 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         Container(
-                          margin: const EdgeInsets.only(top: 10), // အပေါ်ကနေ နည်းနည်းခွာမယ်
-                          width: 130,  // ဒီမှာ width ကို ၁၀၀ လို့ သတ်မှတ်ပါ
-                          height: 170, // height ကိုလည်း ၁၀၀ လို့ သတ်မှတ်ပါ
-                          // child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(10),
+                          margin: const EdgeInsets.only(top: 10),
+                          width: 130,
+                          height: 170,
                             child: Image.network(
                               product.image_url,
-                              fit: BoxFit.cover, // ပုံကို box ထဲ ကွက်တိဝင်အောင် ညှိပေးတယ်
+                              fit: BoxFit.cover,
                             ),
                           // ),
                         ),
@@ -253,9 +251,9 @@ class _HomePageState extends State<HomePage> {
                               Text("\$ ${product.price} "),
                               SizedBox(height: 10),
                               ElevatedButton(
-                                onPressed: () => _showAddtoCartDialog(product), // ဒီနေရာမှာ dialog ကို ခေါ်မယ်
+                                onPressed: () => _showAddtoCartDialog(product),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.pink.shade50, // အရောင်နုနုလေးပြောင်းလိုက်ရင် ပိုလှပါတယ်
+                                  backgroundColor: Colors.pink.shade50,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                 ),
@@ -288,12 +286,12 @@ class _HomePageState extends State<HomePage> {
                   builder: (context) => CartOrder(cartItems: myCart),
                 )
               );
-              setState(() {}); // Order ပြီးပြီးနောက်မှာ Cart ကို update လုပ်ဖို့ setState ခေါ်မယ်
+              setState(() {}); // Order ပြီးပြီးနောက်မှာ Cart ကို update လုပ်ဖို့ setState ခေါ်
             },
             backgroundColor: Colors.pink.shade100,
             child: Icon(Icons.shopping_cart),
           ),
-          if (myCart.isNotEmpty)// Cart ထဲမှာ ပစ္စည်းရှိမှ badge ပြမယ်
+          if (myCart.isNotEmpty)// Cart ထဲမှာ ပစ္စည်းရှိမှ badge ပြ
             Positioned(
               right: 8,
               top: 8,
