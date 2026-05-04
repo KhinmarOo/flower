@@ -1,17 +1,19 @@
-# flower
+# 🌸 Bloom and Joy - Flower Shop App
 
-A new Flutter project.
+A beautiful and lightweight Flutter application for browsing and ordering hand-crafted flower bouquets.
 
-## Getting Started
+## 🚀 Key Features
 
-This project is a starting point for a Flutter application.
+- **Product Catalog**: View flower arrangements in a clean, responsive GridView.
+- **Backend Integration**: Real-time data fetching from **Supabase**.
+- **Shopping Cart**: Fully functional cart with the ability to add/remove items.
+- **Quantity Management**: Increase or decrease item quantities directly in the cart.
+- **Order Flow**: Automated cart clearing upon successful order placement.
+- **Elegant UI**: Theme-based design focusing on a soft, aesthetic user experience.
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Tech Stack
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Framework**: Flutter
+- **Database**: Supabase
+- **Language**: Dart
+- **State Management**: StatefulWidget (setState)
