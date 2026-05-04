@@ -35,45 +35,65 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // Cart ထဲက ပစ္စည်းတွေကို သိမ်းမယ့် List
+  List<Map<String, dynamic>> myCart = [];
+  late Future<List<Product>> _productsFuture;
+  final SupabaseService service = SupabaseService();
 
+  @override
+  void initState() {
+    super.initState();
+    _productsFuture = service.fetchProducts(); // Supabase ကနေ ပစ္စည်းစာရင်းကို ခေါ်မယ်
+  }
 
+  void _addToCart(Product product){
+    setState(() {
+      // Cart ထဲမှာ ဒီပစ္စည်း ရှိပြီးသားလား စစ်မယ်
+      int index = myCart.indexWhere((item) => item['name'] == product.name);
+      if (index != -1) {
+        myCart[index]['qty']++;
+      }else{
+        myCart.add({
+          'name': product.name,
+          'price': product.price,
+          'qty': 1,
+          'image': product.image_url,
+        });
+      }
+    });
+  
+  }
 
-  int cartCount =0;
-  void _showAddtoCartDialog(){
+  void _showAddtoCartDialog(Product product) {
     showDialog(
-      context: context, 
-      builder: (BuildContext context){
+      context: context,
+      builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Added to Cart"),
-          content: Text("The item has been added to your cart?"),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          title: const Text("Add to Cart"),
+          content: Text("Do you want to add '${product.name}' to your cart?"),
           actions: [
             TextButton(
-              // Cancel button
-              onPressed: () {
-                Navigator.of(context).pop();
-              }, 
-              child: Text("Cancel")
+              onPressed: () => Navigator.of(context).pop(), // ပိတ်လိုက်ရုံပဲ
+              child: const Text("Cancel", style: TextStyle(color: Colors.grey)),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.pink.shade100),
               onPressed: () {
-                setState(() {
-                  cartCount++;
-                });
-                Navigator.of(context).pop(); // box ပိတ်
+                // ဒီနေရာမှာ _addToCart ကို လှမ်းခေါ်ပြီး data ထည့်မယ်
+                _addToCart(product); 
+                Navigator.of(context).pop(); // Box ကို ပိတ်မယ်
               },
-              child: Text("Add") 
+              child: const Text("Add", style: TextStyle(color: Colors.black)),
             )
           ],
         );
-      }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final SupabaseService service = SupabaseService();
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Bloom and Joy"),
@@ -87,20 +107,37 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 color: Colors.pink.shade100,
               ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.home),
-                    title: Text("Home"),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.phone),
-                    title: Text("Contact"),
-                    onTap: () {},
-                  ),
-                ],
+              child: Center(
+                child: Text("Bloom and Joy", style: TextStyle(fontSize: 24, color: Colors.black)),
               ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text("Home"),
+              onTap: () {
+                Navigator.push(context, 
+                  MaterialPageRoute(builder: (context) => HomePage())
+                 );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_cart),
+              title: Text("Shopping Cart"),
+              onTap: () {
+                Navigator.push(context, 
+                  MaterialPageRoute(builder: (context) => CartOrder(cartItems: myCart))
+                 );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.phone),
+              title: Text("Contact"),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.info),
+              title: Text("About Us"),
+              onTap: () {},
             ),
           ],
         ),
@@ -152,7 +189,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 30,),
             Expanded(
               child: FutureBuilder<List<Product>>(
-              future: service.fetchProducts(), // Supabase ကနေ data ခေါ်မယ်
+              future: _productsFuture, // Supabase ကနေ data ခေါ်မယ်
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -213,10 +250,10 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Text(product.name, style: TextStyle(fontWeight: FontWeight.bold)),
                               SizedBox(height: 7),
-                              Text("${product.price} MMK"),
+                              Text("\$ ${product.price} "),
                               SizedBox(height: 10),
                               ElevatedButton(
-                                onPressed: _showAddtoCartDialog,
+                                onPressed: () => _showAddtoCartDialog(product), // ဒီနေရာမှာ dialog ကို ခေါ်မယ်
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.pink.shade50, // အရောင်နုနုလေးပြောင်းလိုက်ရင် ပိုလှပါတယ်
                                   elevation: 0,
@@ -227,42 +264,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ),
-                        // Expanded(
-                        //   flex: 1, // စာသားနဲ့ button ကို နေရာ ၂ ပုံ ပေးမယ်
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Column(
-                        //       crossAxisAlignment: CrossAxisAlignment.center,
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         Text(
-                        //           product.name,
-                                  
-                        //           maxLines: 1,
-                        //           overflow: TextOverflow.ellipsis, // နာမည်ရှည်ရင် ... နဲ့ ဖြတ်မယ်
-                        //           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                        //         ),
-                        //         Text(
-                        //           "\$ ${product.price} ",
-                        //           style: TextStyle(color: Colors.pink.shade400, fontWeight: FontWeight.w600),
-                        //         ),
-                        //         SizedBox(
-                        //           width: double.infinity,
-                        //           height: 30,
-                        //           child: ElevatedButton(
-                        //             onPressed: _showAddtoCartDialog,
-                        //             style: ElevatedButton.styleFrom(
-                        //               backgroundColor: Colors.pink.shade50, // အရောင်နုနုလေးပြောင်းလိုက်ရင် ပိုလှပါတယ်
-                        //               elevation: 0,
-                        //               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        //             ),
-                        //             child: Text("Add", style: TextStyle(color: Colors.pink.shade400, fontSize: 12)),
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
+                        
                       ]
                     ),
                   );
@@ -279,18 +281,19 @@ class _HomePageState extends State<HomePage> {
         alignment: Alignment.center,
         children: [
           FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const CartOrder(),
+                  builder: (context) => CartOrder(cartItems: myCart),
                 )
               );
+              setState(() {}); // Order ပြီးပြီးနောက်မှာ Cart ကို update လုပ်ဖို့ setState ခေါ်မယ်
             },
             backgroundColor: Colors.pink.shade100,
             child: Icon(Icons.shopping_cart),
           ),
-          if (cartCount > 0)
+          if (myCart.isNotEmpty)// Cart ထဲမှာ ပစ္စည်းရှိမှ badge ပြမယ်
             Positioned(
               right: 8,
               top: 8,
@@ -302,7 +305,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
                 child: Text(
-                  '$cartCount',
+                  '${myCart.length}',
                   style: const TextStyle(color: Colors.white, fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
