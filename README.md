@@ -20,7 +20,7 @@ A beautiful and lightweight Flutter application for browsing and ordering hand-c
 
 ## UI Screenshot
 
-![Logo](assets/images/flower_appSS.png)
-![Logo](assets/images/flower_app-1.png)
-![Logo](assets/images/flower_app-2.png)
+![](assets/images/flower_appSS.png)
+![](assets/images/flower_app-1.png)
+![](assets/images/flower_app-2.png)
 
