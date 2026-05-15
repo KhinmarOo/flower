@@ -17,3 +17,13 @@ A beautiful and lightweight Flutter application for browsing and ordering hand-c
 - **Database**: Supabase
 - **Language**: Dart
 - **State Management**: StatefulWidget (setState)
+
+## UI Screenshot
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/flower_app-1.png
+    - assets/images/flower_app-2.png
+    - assets/images/flower_appSS.png

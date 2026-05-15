@@ -92,3 +92,6 @@ flutter:
 
   assets:
     - assets/images/flower1.png
+    - assets/images/flower_app-1.png
+    - assets/images/flower_app-2.png
+    - assets/images/flower_appSS.png
